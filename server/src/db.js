@@ -13,7 +13,12 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS vehicles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    make_model TEXT NOT NULL
+    make_model TEXT NOT NULL,
+    plate TEXT,
+    color TEXT,
+    seats INTEGER,
+    vehicle_type TEXT,
+    photo_url TEXT
   );
 
   CREATE TABLE IF NOT EXISTS bookings (
