@@ -3,6 +3,7 @@ import cors from "cors";
 import "./db.js";
 import vehiclesRouter from "./routes/vehicles.js";
 import bookingsRouter from "./routes/bookings.js";
+import syncTuroRouter from "./routes/sync-turo.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -15,7 +16,9 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/vehicles", vehiclesRouter);
+app.use("/api/vehicles", syncTuroRouter);
 app.use("/api/bookings", bookingsRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
