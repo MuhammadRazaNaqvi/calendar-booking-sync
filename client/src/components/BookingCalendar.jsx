@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -53,6 +54,8 @@ const SOURCE_STYLES = {
 const CONFLICT_STYLE = { background: "#fee2e2", border: "#fca5a5", color: "#b91c1c" };
 
 export default function BookingCalendar({ bookings }) {
+  // react-big-calendar's own uncontrolled date state doesn't re-render reliably on React 19, so control it here.
+  const [date, setDate] = useState(new Date());
   const events = bookings.map((booking) => ({
     id: booking.id,
     title: `${booking.source === "turo" ? "Turo" : "Direct"} · ${booking.renter_name}${
@@ -84,6 +87,8 @@ export default function BookingCalendar({ bookings }) {
         events={events}
         views={["month"]}
         defaultView="month"
+        date={date}
+        onNavigate={setDate}
         style={{ height: 560 }}
         eventPropGetter={eventPropGetter}
         components={{ toolbar: CustomToolbar }}
