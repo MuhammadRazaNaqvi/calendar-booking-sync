@@ -3,7 +3,8 @@ import Header from "./components/Header.jsx";
 import VehiclePanel from "./components/VehiclePanel.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
 import ActivityFeed from "./components/ActivityFeed.jsx";
-import { getVehicles, getBookings, createBooking, syncTuro } from "./api.js";
+import BookingDetailModal from "./components/BookingDetailModal.jsx";
+import { getVehicles, getBookings, createBooking, updateBooking, deleteBooking, syncTuro } from "./api.js";
 
 function newActivity(type, title, subtitle) {
   return { id: crypto.randomUUID(), type, title, subtitle };
@@ -19,6 +20,9 @@ export default function App() {
   const [bookingForm, setBookingForm] = useState({ startDate: "", endDate: "", renterName: "" });
   const [bookingSubmitting, setBookingSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [bookingActionSaving, setBookingActionSaving] = useState(false);
+  const [bookingActionError, setBookingActionError] = useState(null);
 
   useEffect(() => {
     getVehicles().then((data) => {
@@ -121,6 +125,60 @@ export default function App() {
     }
   }
 
+  function handleSelectEvent(booking) {
+    setBookingActionError(null);
+    setSelectedBooking(booking);
+  }
+
+  function handleCloseModal() {
+    setSelectedBooking(null);
+    setBookingActionError(null);
+  }
+
+  async function handleUpdateBooking(id, payload) {
+    setBookingActionSaving(true);
+    setBookingActionError(null);
+    try {
+      await updateBooking(id, payload);
+      refetchBookings();
+      setActivity((prev) => [
+        newActivity(
+          "success",
+          "Booking updated",
+          `${payload.startDate} to ${payload.endDate} for ${payload.renterName}`
+        ),
+        ...prev,
+      ]);
+      setSelectedBooking(null);
+    } catch (err) {
+      if (err.response?.status === 409) {
+        const conflicting = err.response.data.conflictingBooking;
+        setBookingActionError(
+          `Conflicts with an existing ${conflicting.source} booking (${conflicting.start_date} to ${conflicting.end_date})`
+        );
+      } else {
+        setBookingActionError(err.response?.data?.error ?? "Something went wrong updating this booking.");
+      }
+    } finally {
+      setBookingActionSaving(false);
+    }
+  }
+
+  async function handleDeleteBooking(id) {
+    setBookingActionSaving(true);
+    setBookingActionError(null);
+    try {
+      await deleteBooking(id);
+      refetchBookings();
+      setActivity((prev) => [newActivity("success", "Booking deleted", "Direct booking removed"), ...prev]);
+      setSelectedBooking(null);
+    } catch (err) {
+      setBookingActionError(err.response?.data?.error ?? "Something went wrong deleting this booking.");
+    } finally {
+      setBookingActionSaving(false);
+    }
+  }
+
   return (
     <div className="bg-gradient-to-b from-orange-50 to-slate-100 text-slate-800 min-h-screen">
       <Header lastSyncedAt={lastSyncedAt} notifications={activity.slice(0, 5)} />
@@ -140,10 +198,21 @@ export default function App() {
           bookingSubmitting={bookingSubmitting}
           formMessage={formMessage}
         />
-        <BookingCalendar bookings={bookings} />
+        <BookingCalendar bookings={bookings} onSelectEvent={handleSelectEvent} />
       </div>
 
       <ActivityFeed items={activity} />
+
+      {selectedBooking && (
+        <BookingDetailModal
+          booking={selectedBooking}
+          onClose={handleCloseModal}
+          onUpdate={handleUpdateBooking}
+          onDelete={handleDeleteBooking}
+          saving={bookingActionSaving}
+          error={bookingActionError}
+        />
+      )}
     </div>
   );
 }

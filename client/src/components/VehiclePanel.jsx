@@ -1,3 +1,5 @@
+import { todayStr } from "../dateUtils.js";
+
 export default function VehiclePanel({
   vehicles,
   selectedVehicleId,
@@ -92,6 +94,7 @@ export default function VehiclePanel({
               <input
                 type="date"
                 required
+                min={todayStr()}
                 className="w-1/2 border border-slate-200 rounded-lg px-2 py-1.5 text-xs"
                 value={bookingForm.startDate}
                 onChange={(e) => onBookingFieldChange("startDate", e.target.value)}
@@ -99,6 +102,7 @@ export default function VehiclePanel({
               <input
                 type="date"
                 required
+                min={bookingForm.startDate || todayStr()}
                 className="w-1/2 border border-slate-200 rounded-lg px-2 py-1.5 text-xs"
                 value={bookingForm.endDate}
                 onChange={(e) => onBookingFieldChange("endDate", e.target.value)}

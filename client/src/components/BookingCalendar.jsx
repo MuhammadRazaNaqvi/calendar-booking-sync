@@ -53,7 +53,7 @@ const SOURCE_STYLES = {
 };
 const CONFLICT_STYLE = { background: "#fee2e2", border: "#fca5a5", color: "#b91c1c" };
 
-export default function BookingCalendar({ bookings }) {
+export default function BookingCalendar({ bookings, onSelectEvent }) {
   // react-big-calendar's own uncontrolled date state doesn't re-render reliably on React 19, so control it here.
   const [date, setDate] = useState(new Date());
   const events = bookings.map((booking) => ({
@@ -76,6 +76,7 @@ export default function BookingCalendar({ bookings }) {
         border: `1px solid ${style.border}`,
         color: style.color,
         borderRadius: "6px",
+        cursor: "pointer",
       },
     };
   };
@@ -89,6 +90,7 @@ export default function BookingCalendar({ bookings }) {
         defaultView="month"
         date={date}
         onNavigate={setDate}
+        onSelectEvent={(event) => onSelectEvent(event.resource)}
         style={{ height: 560 }}
         eventPropGetter={eventPropGetter}
         components={{ toolbar: CustomToolbar }}

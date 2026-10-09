@@ -16,6 +16,14 @@ export function createBooking(payload) {
   return client.post("/api/bookings", payload).then((res) => res.data);
 }
 
+export function updateBooking(id, payload) {
+  return client.put(`/api/bookings/${id}`, payload).then((res) => res.data);
+}
+
+export function deleteBooking(id) {
+  return client.delete(`/api/bookings/${id}`).then((res) => res.data);
+}
+
 export function syncTuro(vehicleId) {
   return client.post(`/api/vehicles/${vehicleId}/sync-turo`).then((res) => res.data);
 }
