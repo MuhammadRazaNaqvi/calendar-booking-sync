@@ -1,5 +1,5 @@
 {
-  "name": "no-double-book-server",
+  "name": "calendar-booking-sync-server",
   "version": "1.0.0",
   "private": true,
   "type": "module",
