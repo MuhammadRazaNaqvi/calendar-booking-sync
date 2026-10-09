@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Ops Console Dark</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:'JetBrains Mono',ui-monospace,monospace;}</style>
+</head>
+<body class="bg-slate-950 text-slate-200 p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-xl font-semibold text-cyan-300">NO_DOUBLE_BOOK</h1>
+        <p class="text-sm text-slate-500">vehicle: tesla-model-3 · fleet: downtown</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-200">
+          <option>Tesla Model 3</option>
+          <option>Jeep Wrangler</option>
+        </select>
+        <button class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-semibold px-4 py-2 rounded">SYNC_TURO</button>
+      </div>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-lg p-5 mb-6">
+      <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 mb-2">
+        <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+      </div>
+      <div class="grid grid-cols-7 gap-1">
+        <div class="h-16 rounded bg-slate-950"></div>
+        <div class="h-16 rounded bg-slate-950"></div>
+        <div class="h-16 rounded bg-amber-900/40 border border-amber-500 text-amber-300 text-xs p-1">01<div class="mt-1">TURO</div></div>
+        <div class="h-16 rounded bg-amber-900/40 border border-amber-500 text-amber-300 text-xs p-1">02<div class="mt-1">TURO</div></div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">03</div>
+        <div class="h-16 rounded bg-cyan-900/40 border border-cyan-500 text-cyan-300 text-xs p-1">04<div class="mt-1">DIRECT</div></div>
+        <div class="h-16 rounded bg-cyan-900/40 border border-cyan-500 text-cyan-300 text-xs p-1">05<div class="mt-1">DIRECT</div></div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">06</div>
+        <div class="h-16 rounded bg-red-900/40 border border-red-500 text-red-300 text-xs p-1">07<div class="mt-1">CONFLICT</div></div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">08</div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">09</div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">10</div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">11</div>
+        <div class="h-16 rounded bg-slate-950 text-xs p-1 text-slate-600">12</div>
+      </div>
+    </div>
+
+    <div class="space-y-2 text-sm">
+      <div class="flex items-center gap-3 bg-slate-900 border border-amber-700/50 rounded px-4 py-3">
+        <span class="text-amber-400">[SYNC]</span><span>2 Turo bookings imported — Nov 1–2</span>
+      </div>
+      <div class="flex items-center gap-3 bg-slate-900 border border-red-700/50 rounded px-4 py-3">
+        <span class="text-red-400">[ALERT]</span><span>Conflict: direct booking overlaps Turo reservation Nov 7</span>
+      </div>
+      <div class="flex items-center gap-3 bg-slate-900 border border-cyan-700/50 rounded px-4 py-3">
+        <span class="text-cyan-400">[OK]</span><span>Booking confirmed — Nov 4–5 — Alex</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

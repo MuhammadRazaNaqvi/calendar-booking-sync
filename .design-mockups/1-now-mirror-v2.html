@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>1Now Mirror v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{font-family:'Inter',system-ui,sans-serif;font-feature-settings:'cv11','ss01';}
+  .font-display{font-family:'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:-0.01em;}
+</style>
+</head>
+<body class="bg-gradient-to-b from-orange-50 to-slate-100 text-slate-800 min-h-screen">
+
+  <!-- Header nav: brand, icon nav links, sync status, notifications -->
+  <header class="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <span class="font-display text-base font-bold tracking-tight">No Double Book</span>
+        <nav class="hidden sm:flex items-center gap-5 text-sm text-slate-500">
+          <a class="flex items-center gap-1.5 text-slate-900 font-medium" href="#">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M4.5 10.5V20a1 1 0 001 1H9.5v-6h5v6H19a1 1 0 001-1v-9.5" /></svg>
+            Dashboard
+          </a>
+          <a class="flex items-center gap-1.5 hover:text-slate-800" href="#">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375A1.125 1.125 0 012.25 17.625V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V9.75M15 9.75V6.75a1.5 1.5 0 00-1.5-1.5h-6a1.5 1.5 0 00-1.5 1.5v4.5m12 0h3.375c.621 0 1.125.504 1.125 1.125v2.25M15 9.75h-9M3 9.75V6.75a1.5 1.5 0 011.5-1.5h3.75" /></svg>
+            Vehicles
+          </a>
+          <a class="flex items-center gap-1.5 hover:text-slate-800" href="#">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5h2.25v6H3.75v-6zm7.125-4.5h2.25v10.5h-2.25V9zm7.125-4.5H20.25v15h-2.25V4.5z" /></svg>
+            Activity
+          </a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Sync status pill -->
+        <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium px-3 py-1.5 rounded-full">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Synced 2 min ago
+        </div>
+        <!-- Notifications bell with dropdown -->
+        <details class="relative">
+          <summary class="list-none cursor-pointer w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 relative">
+            <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 00-4-5.65V5a2 2 0 10-4 0v.35A6 6 0 006 11v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] leading-none rounded-full w-4 h-4 flex items-center justify-center">2</span>
+          </summary>
+          <div class="absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-xl shadow-lg p-2 space-y-1">
+            <p class="px-2 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wide">Notifications</p>
+            <div class="flex items-start gap-2 px-2 py-2 rounded-lg hover:bg-slate-50">
+              <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l2.25 2.25L15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <div>
+                <p class="text-sm font-medium">Turo sync complete</p>
+                <p class="text-xs text-slate-500">2 bookings imported just now</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2 px-2 py-2 rounded-lg hover:bg-slate-50">
+              <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.007v.008H12v-.008zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <div>
+                <p class="text-sm font-medium">Sync conflict found</p>
+                <p class="text-xs text-slate-500">Turo booking overlaps a direct booking on Nov 7</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 items-stretch">
+
+    <!-- Left: vehicle photo box, stretched to match calendar card height -->
+    <aside class="lg:sticky lg:top-20">
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden h-full flex flex-col">
+        <div class="relative h-40 bg-gradient-to-br from-slate-100 to-orange-100">
+          <img
+            src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=600&q=70"
+            alt="Tesla Model 3"
+            class="w-full h-full object-cover"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          />
+          <div class="hidden absolute inset-0 items-center justify-center">
+            <svg viewBox="0 0 64 64" class="w-24 h-24 text-orange-400" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 38l4-12a4 4 0 014-3h16a4 4 0 014 3l4 12" />
+              <rect x="6" y="38" width="52" height="10" rx="3" />
+              <circle cx="18" cy="50" r="4" />
+              <circle cx="46" cy="50" r="4" />
+            </svg>
+          </div>
+        </div>
+        <div class="p-4 flex flex-col flex-1">
+          <p class="font-display text-sm font-semibold">Tesla Model 3</p>
+          <p class="text-xs text-slate-500 mb-3">Downtown Fleet · Plate 7JKL021</p>
+
+          <div class="grid grid-cols-2 gap-y-2 gap-x-3 text-xs border-t border-b border-slate-100 py-3 mb-3">
+            <div>
+              <p class="text-slate-400">Year</p>
+              <p class="font-medium text-slate-700">2026</p>
+            </div>
+            <div>
+              <p class="text-slate-400">Color</p>
+              <p class="font-medium text-slate-700">Pearl White</p>
+            </div>
+            <div>
+              <p class="text-slate-400">Seats</p>
+              <p class="font-medium text-slate-700">5</p>
+            </div>
+            <div>
+              <p class="text-slate-400">Type</p>
+              <p class="font-medium text-slate-700">Electric</p>
+            </div>
+          </div>
+
+          <select class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2">
+            <option>Tesla Model 3</option>
+            <option>Jeep Wrangler</option>
+          </select>
+          <button class="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm">Sync Turo now</button>
+          <div class="mt-auto flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+            <span>5 bookings this month</span>
+            <span class="text-red-500 font-medium">1 conflict</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: full month calendar -->
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 min-w-0">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-1">
+          <button class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+          </button>
+          <h2 class="font-display text-base font-bold px-1">November 2026</h2>
+          <button class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+          </button>
+        </div>
+        <button class="text-xs font-medium text-slate-500 border border-slate-200 rounded-lg px-3 py-1.5 hover:bg-slate-50">Today</button>
+      </div>
+
+      <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-400 mb-2">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+
+      <!-- Reusable badge icons: car (turo), pin (direct), warning (conflict) -->
+      <div class="grid grid-cols-7 gap-1">
+        <!-- Row 1 -->
+        <div class="min-h-[4.5rem] rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-xs p-1.5"><span class="font-medium">1</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 38l4-12" transform="scale(0.3)"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>Turo</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-xs p-1.5"><span class="font-medium">2</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>Turo</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">3</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs p-1.5"><span class="font-medium">4</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4-4.5-7-7.8-7-11a7 7 0 1114 0c0 3.2-3 6.5-7 11z"/><circle cx="12" cy="10" r="2"/></svg>Direct</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs p-1.5"><span class="font-medium">5</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4-4.5-7-7.8-7-11a7 7 0 1114 0c0 3.2-3 6.5-7 11z"/><circle cx="12" cy="10" r="2"/></svg>Direct</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">6</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-red-50 border border-red-300 text-red-700 text-xs p-1.5"><span class="font-medium">7</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.007v.008H12v-.008zM10.3 3.9L1.8 18.3a1.5 1.5 0 001.3 2.2h17.8a1.5 1.5 0 001.3-2.2L13.7 3.9a1.5 1.5 0 00-2.6 0z"/></svg>Conflict</div></div>
+        <!-- Row 2 -->
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">8</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">9</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">10</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">11</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">12</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">13</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">14</div>
+        <!-- Row 3 -->
+        <div class="min-h-[4.5rem] rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-xs p-1.5"><span class="font-medium">15</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>Turo</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-xs p-1.5"><span class="font-medium">16</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>Turo</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-xs p-1.5"><span class="font-medium">17</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>Turo</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">18</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">19</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">20</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">21</div>
+        <!-- Row 4 -->
+        <div class="min-h-[4.5rem] rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs p-1.5"><span class="font-medium">22</span><div class="mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4-4.5-7-7.8-7-11a7 7 0 1114 0c0 3.2-3 6.5-7 11z"/><circle cx="12" cy="10" r="2"/></svg>Direct</div></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">23</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">24</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">25</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">26</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">27</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">28</div>
+        <!-- Row 5 -->
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">29</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50 text-xs p-1.5 text-slate-400">30</div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50/50"></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50/50"></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50/50"></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50/50"></div>
+        <div class="min-h-[4.5rem] rounded-lg bg-slate-50/50"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Below: compact activity report, two columns, kept small -->
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 pb-8">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-4">
+      <p class="font-display text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Activity</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div class="flex items-start gap-2.5 bg-slate-50 border-l-4 border-orange-400 rounded-lg p-3">
+          <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12l1-3a2 2 0 012-1.3h10.5a2 2 0 012 1.3l1 3M4.5 12h15v4a1 1 0 01-1 1h-1.5v-2h-9v2H5.5a1 1 0 01-1-1v-4z"/></svg>
+          <div class="min-w-0">
+            <p class="text-xs font-medium truncate">Synced 2 Turo bookings</p>
+            <p class="text-[11px] text-slate-500 truncate">Nov 1–2 and Nov 15–17 blocked</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-2.5 bg-slate-50 border-l-4 border-red-500 rounded-lg p-3">
+          <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.007v.008H12v-.008zM10.3 3.9L1.8 18.3a1.5 1.5 0 001.3 2.2h17.8a1.5 1.5 0 001.3-2.2L13.7 3.9a1.5 1.5 0 00-2.6 0z"/></svg>
+          <div class="min-w-0">
+            <p class="text-xs font-medium truncate">Heads up — conflict detected</p>
+            <p class="text-[11px] text-slate-500 truncate">Direct booking overlaps Turo on Nov 7</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-2.5 bg-slate-50 border-l-4 border-blue-500 rounded-lg p-3">
+          <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l2.25 2.25L15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="min-w-0">
+            <p class="text-xs font-medium truncate">Booking confirmed</p>
+            <p class="text-[11px] text-slate-500 truncate">Direct booking Nov 4–5 for Alex</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-2.5 bg-slate-50 border-l-4 border-blue-500 rounded-lg p-3">
+          <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l2.25 2.25L15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="min-w-0">
+            <p class="text-xs font-medium truncate">Booking confirmed</p>
+            <p class="text-[11px] text-slate-500 truncate">Direct booking Nov 22–24 for Priya</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

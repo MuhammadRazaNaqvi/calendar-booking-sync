@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>1Now Mirror</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:Inter,system-ui,sans-serif;}</style>
+</head>
+<body class="bg-white text-slate-800 p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-xl font-semibold">No Double Book</h1>
+        <p class="text-sm text-slate-500">Tesla Model 3 · Downtown Fleet</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select class="border border-slate-200 rounded-lg px-3 py-2 text-sm">
+          <option>Tesla Model 3</option>
+          <option>Jeep Wrangler</option>
+        </select>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm">Sync Turo now</button>
+      </div>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 mb-6">
+      <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-400 mb-2">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="grid grid-cols-7 gap-1">
+        <!-- row 1 -->
+        <div class="h-16 rounded-lg bg-slate-50"></div>
+        <div class="h-16 rounded-lg bg-slate-50"></div>
+        <div class="h-16 rounded-lg bg-orange-100 border border-orange-300 text-orange-700 text-xs p-1">1<div class="mt-1 font-medium">Turo</div></div>
+        <div class="h-16 rounded-lg bg-orange-100 border border-orange-300 text-orange-700 text-xs p-1">2<div class="mt-1 font-medium">Turo</div></div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">3</div>
+        <div class="h-16 rounded-lg bg-blue-100 border border-blue-300 text-blue-700 text-xs p-1">4<div class="mt-1 font-medium">Direct</div></div>
+        <div class="h-16 rounded-lg bg-blue-100 border border-blue-300 text-blue-700 text-xs p-1">5<div class="mt-1 font-medium">Direct</div></div>
+        <!-- row 2 -->
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">6</div>
+        <div class="h-16 rounded-lg bg-red-100 border border-red-400 text-red-700 text-xs p-1">7<div class="mt-1 font-medium">Conflict</div></div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">8</div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">9</div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">10</div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">11</div>
+        <div class="h-16 rounded-lg bg-slate-50 text-xs p-1 text-slate-400">12</div>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex items-start gap-3 bg-white border-l-4 border-orange-400 rounded-xl shadow-sm p-4">
+        <div class="w-2 h-2 rounded-full bg-orange-400 mt-1.5"></div>
+        <div>
+          <p class="text-sm font-medium">Synced 2 Turo bookings</p>
+          <p class="text-xs text-slate-500">Nov 1–2 and Nov 1–2 blocked on the calendar</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-white border-l-4 border-red-500 rounded-xl shadow-sm p-4">
+        <div class="w-2 h-2 rounded-full bg-red-500 mt-1.5"></div>
+        <div>
+          <p class="text-sm font-medium">Heads up — conflict detected</p>
+          <p class="text-xs text-slate-500">New direct booking overlaps Turo reservation Nov 7</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-white border-l-4 border-blue-500 rounded-xl shadow-sm p-4">
+        <div class="w-2 h-2 rounded-full bg-blue-500 mt-1.5"></div>
+        <div>
+          <p class="text-sm font-medium">Booking confirmed</p>
+          <p class="text-xs text-slate-500">Direct booking Nov 4–5 for Alex</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

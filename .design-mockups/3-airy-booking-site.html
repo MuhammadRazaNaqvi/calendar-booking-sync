@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Airy Booking Site</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:'Poppins',system-ui,sans-serif;}</style>
+</head>
+<body class="bg-orange-50 text-slate-700 p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-800">Tesla Model 3</h1>
+        <p class="text-sm text-slate-500">Downtown Fleet · $65/day</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select class="bg-white border-0 ring-1 ring-orange-200 rounded-full px-4 py-2 text-sm shadow-sm">
+          <option>Tesla Model 3</option>
+          <option>Jeep Wrangler</option>
+        </select>
+        <button class="bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold px-5 py-2 rounded-full shadow">Sync Turo</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-md p-6 mb-6">
+      <div class="grid grid-cols-7 gap-2 text-center text-xs text-slate-400 mb-3">
+        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+      </div>
+      <div class="grid grid-cols-7 gap-2">
+        <div class="h-16 rounded-2xl bg-orange-50"></div>
+        <div class="h-16 rounded-2xl bg-orange-50"></div>
+        <div class="h-16 rounded-2xl bg-amber-200 text-amber-800 text-xs p-2 font-medium">1<br/>Turo</div>
+        <div class="h-16 rounded-2xl bg-amber-200 text-amber-800 text-xs p-2 font-medium">2<br/>Turo</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">3</div>
+        <div class="h-16 rounded-2xl bg-sky-200 text-sky-800 text-xs p-2 font-medium">4<br/>Direct</div>
+        <div class="h-16 rounded-2xl bg-sky-200 text-sky-800 text-xs p-2 font-medium">5<br/>Direct</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">6</div>
+        <div class="h-16 rounded-2xl bg-rose-200 text-rose-800 text-xs p-2 font-medium">7<br/>Conflict</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">8</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">9</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">10</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">11</div>
+        <div class="h-16 rounded-2xl bg-orange-50 text-xs p-2 text-slate-400">12</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-white rounded-2xl shadow-sm p-4">
+        <p class="text-xs text-amber-600 font-semibold mb-1">SYNCED</p>
+        <p class="text-sm">2 Turo bookings imported</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm p-4">
+        <p class="text-xs text-rose-600 font-semibold mb-1">HEADS UP</p>
+        <p class="text-sm">Conflict on Nov 7 booking</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm p-4">
+        <p class="text-xs text-sky-600 font-semibold mb-1">CONFIRMED</p>
+        <p class="text-sm">Direct booking Nov 4–5</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

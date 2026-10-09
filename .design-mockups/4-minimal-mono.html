@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Minimal Mono</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:Inter,system-ui,sans-serif;}</style>
+</head>
+<body class="bg-white text-neutral-900 p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-neutral-200">
+      <div>
+        <h1 class="text-lg font-semibold tracking-tight">No Double Book</h1>
+        <p class="text-xs text-neutral-500">Tesla Model 3</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <select class="border border-neutral-300 rounded px-3 py-1.5 text-sm">
+          <option>Tesla Model 3</option>
+          <option>Jeep Wrangler</option>
+        </select>
+        <button class="bg-neutral-900 hover:bg-neutral-700 text-white text-sm font-medium px-3 py-1.5 rounded">Sync Turo</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+      <div class="col-span-2 border border-neutral-200 rounded p-4">
+        <div class="grid grid-cols-7 gap-1 text-center text-[11px] text-neutral-400 mb-2">
+          <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1">
+          <div class="h-14 rounded border border-neutral-100"></div>
+          <div class="h-14 rounded border border-neutral-100"></div>
+          <div class="h-14 rounded border border-neutral-300 text-[11px] p-1">1<div class="text-neutral-500">turo</div></div>
+          <div class="h-14 rounded border border-neutral-300 text-[11px] p-1">2<div class="text-neutral-500">turo</div></div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">3</div>
+          <div class="h-14 rounded border border-neutral-300 text-[11px] p-1">4<div class="text-neutral-500">direct</div></div>
+          <div class="h-14 rounded border border-neutral-300 text-[11px] p-1">5<div class="text-neutral-500">direct</div></div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">6</div>
+          <div class="h-14 rounded border border-red-400 bg-red-50 text-[11px] p-1 text-red-700">7<div>conflict</div></div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">8</div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">9</div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">10</div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">11</div>
+          <div class="h-14 rounded border border-neutral-100 text-[11px] p-1 text-neutral-300">12</div>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <div class="border border-neutral-200 rounded p-3 text-sm">
+          <p class="font-medium">Synced</p>
+          <p class="text-neutral-500 text-xs">2 Turo bookings, Nov 1–2</p>
+        </div>
+        <div class="border border-red-300 bg-red-50 rounded p-3 text-sm">
+          <p class="font-medium text-red-700">Conflict</p>
+          <p class="text-red-600 text-xs">Nov 7 overlaps Turo booking</p>
+        </div>
+        <div class="border border-green-300 bg-green-50 rounded p-3 text-sm">
+          <p class="font-medium text-green-700">Confirmed</p>
+          <p class="text-green-600 text-xs">Direct Nov 4–5, Alex</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
