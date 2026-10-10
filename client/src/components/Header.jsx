@@ -6,7 +6,7 @@ export default function Header({ lastSyncedAt, notifications }) {
 
   return (
     <header className="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-10">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-3 flex flex-wrap gap-3 items-center justify-between">
         <div className="flex items-center gap-8">
           <span className="font-display text-base font-bold tracking-tight">Calendar Booking Sync</span>
           <nav className="hidden sm:flex items-center gap-5 text-sm text-slate-500">
@@ -14,11 +14,11 @@ export default function Header({ lastSyncedAt, notifications }) {
               <HomeIcon className="w-4 h-4" />
               Dashboard
             </a>
-            <a className="flex items-center gap-1.5 hover:text-slate-800" href="#">
+            <a className="flex items-center gap-1.5 hover:text-slate-800" href="#vehicles">
               <CarIcon className="w-4 h-4" />
               Vehicles
             </a>
-            <a className="flex items-center gap-1.5 hover:text-slate-800" href="#">
+            <a className="flex items-center gap-1.5 hover:text-slate-800" href="#activity">
               <ChartIcon className="w-4 h-4" />
               Activity
             </a>
@@ -38,7 +38,7 @@ export default function Header({ lastSyncedAt, notifications }) {
               )}
               <span className={`relative inline-flex rounded-full h-2 w-2 ${lastSyncedAt ? "bg-emerald-500" : "bg-slate-400"}`} />
             </span>
-            {lastSyncedAt ? `Synced ${formatDistanceToNowStrict(lastSyncedAt)} ago` : "Not synced yet"}
+            {lastSyncedAt ? `Synced ${formatDistanceToNowStrict(lastSyncedAt)} ago` : "Not synced this session"}
           </div>
 
           <details className="relative">

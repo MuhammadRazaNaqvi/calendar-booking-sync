@@ -13,6 +13,7 @@ export default function VehiclePanel({
   onBookingSubmit,
   bookingSubmitting,
   formMessage,
+  busy,
 }) {
   if (!vehicle) {
     return (
@@ -71,6 +72,8 @@ export default function VehiclePanel({
           <select
             className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2"
             value={selectedVehicleId}
+            disabled={busy}
+            aria-label="Vehicle"
             onChange={(e) => onSelectVehicle(Number(e.target.value))}
           >
             {vehicles.map((v) => (
@@ -83,7 +86,7 @@ export default function VehiclePanel({
           <button
             className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm mb-3"
             onClick={onSync}
-            disabled={syncing}
+            disabled={busy}
           >
             {syncing ? "Syncing..." : "Sync Turo now"}
           </button>
@@ -93,6 +96,7 @@ export default function VehiclePanel({
             <div className="flex gap-2">
               <input
                 type="date"
+                aria-label="Direct booking start date"
                 required
                 min={todayStr()}
                 className="w-1/2 border border-slate-200 rounded-lg px-2 py-1.5 text-xs"
@@ -101,6 +105,7 @@ export default function VehiclePanel({
               />
               <input
                 type="date"
+                aria-label="Direct booking end date"
                 required
                 min={bookingForm.startDate || todayStr()}
                 className="w-1/2 border border-slate-200 rounded-lg px-2 py-1.5 text-xs"
@@ -118,7 +123,7 @@ export default function VehiclePanel({
             />
             <button
               type="submit"
-              disabled={bookingSubmitting}
+              disabled={busy}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-4 py-2 rounded-lg shadow-sm"
             >
               {bookingSubmitting ? "Checking..." : "Create booking"}
@@ -133,7 +138,7 @@ export default function VehiclePanel({
           <div className="mt-auto flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
             <span>{stats.thisMonth} bookings this month</span>
             {stats.conflicts > 0 ? (
-              <span className="text-red-500 font-medium">{stats.conflicts} conflict{stats.conflicts > 1 ? "s" : ""}</span>
+              <span className="text-red-500 font-medium">{stats.conflicts} flagged booking{stats.conflicts > 1 ? "s" : ""}</span>
             ) : (
               <span className="text-slate-400">No conflicts</span>
             )}

@@ -1,73 +1,47 @@
 import { Router } from "express";
-import nodeIcal from "node-ical";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { randomUUID } from "node:crypto";
 import { db } from "../db.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURE_PATH = path.join(__dirname, "..", "..", "fixtures", "turo-sample.ics");
+import { mockTuroCalendar, syncTuroBookings } from "../turo.js";
+import { todayStr, validateReservation } from "../validation.js";
 
 const router = Router();
 
-function toDateOnly(date) {
-  return date.toISOString().slice(0, 10);
-}
-
-router.post("/:id/sync-turo", async (req, res) => {
-  const vehicleId = req.params.id;
-  const vehicle = db.prepare("SELECT * FROM vehicles WHERE id = ?").get(vehicleId);
+router.use("/:id", (req, res, next) => {
+  const vehicleId = Number(req.params.id);
+  const vehicle = Number.isSafeInteger(vehicleId) && db.prepare("SELECT * FROM vehicles WHERE id = ?").get(vehicleId);
   if (!vehicle) {
     return res.status(404).json({ error: "Vehicle not found" });
   }
+  res.locals.vehicleId = vehicleId;
+  next();
+});
 
-  const events = Object.values(await nodeIcal.async.parseFile(FIXTURE_PATH)).filter(
-    (item) => item.type === "VEVENT"
-  );
+router.post("/:id/sync-turo", (req, res) => {
+  res.json(syncTuroBookings(res.locals.vehicleId));
+});
 
-  const findByUid = db.prepare(
-    "SELECT * FROM bookings WHERE vehicle_id = ? AND external_uid = ?"
-  );
-  const findDirectBookings = db.prepare(
-    "SELECT * FROM bookings WHERE vehicle_id = ? AND source = 'direct'"
-  );
-  const insertTuro = db.prepare(`
-    INSERT INTO bookings (vehicle_id, source, start_date, end_date, renter_name, status, external_uid)
-    VALUES (?, 'turo', ?, ?, 'Turo guest', ?, ?)
-  `);
-  const flagBooking = db.prepare("UPDATE bookings SET status = 'flagged_conflict' WHERE id = ?");
+router.get("/:id/mock-turo/calendar.ics", (req, res) => {
+  res.type("text/calendar").send(mockTuroCalendar(res.locals.vehicleId));
+});
 
-  const imported = [];
-  const conflicts = [];
-  let skipped = 0;
+router.get("/:id/mock-turo/events", (req, res) => {
+  res.json(db.prepare(`
+    SELECT events.*, EXISTS (
+      SELECT 1 FROM bookings WHERE vehicle_id = events.vehicle_id
+      AND source = 'turo' AND external_uid = events.uid
+    ) AS imported
+    FROM mock_turo_events AS events WHERE vehicle_id = ? ORDER BY start_date, uid
+  `).all(res.locals.vehicleId));
+});
 
-  for (const event of events) {
-    if (findByUid.get(vehicleId, event.uid)) {
-      skipped += 1;
-      continue;
-    }
-
-    const startDate = toDateOnly(event.start);
-    const endDate = toDateOnly(event.end);
-
-    const conflictingBooking = findDirectBookings
-      .all(vehicleId)
-      .find((booking) => startDate < booking.end_date && booking.start_date < endDate);
-
-    const status = conflictingBooking ? "flagged_conflict" : "confirmed";
-    const result = insertTuro.run(vehicleId, startDate, endDate, status, event.uid);
-
-    if (conflictingBooking) {
-      flagBooking.run(conflictingBooking.id);
-      conflicts.push({
-        turoBookingId: result.lastInsertRowid,
-        conflictingBooking,
-      });
-    }
-
-    imported.push(db.prepare("SELECT * FROM bookings WHERE id = ?").get(result.lastInsertRowid));
-  }
-
-  res.json({ imported, skipped, conflicts });
+router.post("/:id/mock-turo/events", (req, res) => {
+  const { startDate, endDate, renterName } = req.body ?? {};
+  const error = validateReservation({ startDate, endDate, renterName });
+  if (error) return res.status(400).json({ error });
+  if (startDate < todayStr()) return res.status(400).json({ error: "startDate cannot be in the past" });
+  const uid = `mock-turo-${randomUUID()}`;
+  db.prepare("INSERT INTO mock_turo_events (uid, vehicle_id, start_date, end_date, renter_name) VALUES (?, ?, ?, ?, ?)").run(uid, res.locals.vehicleId, startDate, endDate, renterName.trim());
+  res.status(201).json(db.prepare("SELECT * FROM mock_turo_events WHERE uid = ?").get(uid));
 });
 
 export default router;

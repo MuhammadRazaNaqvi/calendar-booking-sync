@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.join(__dirname, "..", "data.sqlite");
+const dbPath = process.env.DB_PATH || path.join(__dirname, "..", "data.sqlite");
 
 export const db = new Database(dbPath);
 db.pragma("journal_mode = WAL");
@@ -31,6 +31,14 @@ db.exec(`
     status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'flagged_conflict')),
     external_uid TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS mock_turo_events (
+    uid TEXT PRIMARY KEY,
+    vehicle_id INTEGER NOT NULL REFERENCES vehicles(id),
+    start_date TEXT NOT NULL,
+    end_date TEXT NOT NULL,
+    renter_name TEXT NOT NULL
   );
 `);
 

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mock Turo Source</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+    :root { font-family: 'DM Sans', sans-serif; color: #182922; background: #f6f8f7; --line: #dce4df; --green: #146b49; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background-image: linear-gradient(180deg, #edf3ef, #f6f8f7 220px); }
+    header { background: white; border-bottom: 1px solid var(--line); padding: 20px max(24px, calc((100% - 1080px) / 2)); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    h1 { font-size: 24px; margin: 0; letter-spacing: 0; }
+    header span { font-size: 12px; text-transform: uppercase; letter-spacing: 0; color: #587365; }
+    main { max-width: 1128px; margin: 0 auto; padding: 32px 24px; }
+    .vehicle { display: flex; align-items: center; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+    .vehicle img { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; background: #e5ece7; }
+    .vehicle label { min-width: 0; width: 320px; }
+    label { display: block; font-size: 13px; font-weight: 600; }
+    select, input { width: 100%; min-width: 0; margin-top: 8px; border: 1px solid #bfcfc5; border-radius: 6px; padding: 11px 12px; background: white; color: #182922; font: inherit; font-size: 14px; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+    .layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 40px; padding-top: 28px; }
+    h2 { font-size: 17px; margin: 0 0 20px; }
+    form { display: grid; gap: 18px; align-content: start; }
+    form h2 { margin-bottom: 0; }
+    button { border: 0; border-radius: 6px; padding: 12px 16px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; color: white; background: var(--green); }
+    button:hover { background: #0f5338; }
+    button:disabled { opacity: .55; cursor: wait; }
+    .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .section-heading h2 { margin: 0; }
+    .section-heading button { background: transparent; color: var(--green); border: 1px solid var(--line); padding: 7px 12px; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; text-align: left; font-size: 13px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 14px 10px; vertical-align: top; }
+    th { font-size: 11px; text-transform: uppercase; color: #617769; font-weight: 600; }
+    td:first-child { overflow-wrap: anywhere; }
+    td:not(:first-child) { white-space: nowrap; }
+    .pending { color: #a15c11; }
+    .imported { color: var(--green); }
+    [role=status] { font-size: 13px; min-height: 18px; margin: 0; color: var(--green); overflow-wrap: anywhere; }
+    .error { color: #b91c1c !important; }
+    @media (max-width: 760px) { .layout { grid-template-columns: 1fr; gap: 32px; } header { flex-wrap: wrap; } main { padding: 24px 16px; } .vehicle { gap: 12px; } .vehicle img { width: 90px; height: 70px; } .vehicle label { width: auto; flex: 1; } }
+  </style>
+</head>
+<body>
+  <header><h1>Mock Turo</h1><span>Demo reservation source</span></header>
+  <main>
+    <section class="vehicle">
+      <img id="photo" alt="Selected vehicle" hidden>
+      <label>Vehicle<select id="vehicle" disabled aria-label="Vehicle"></select></label>
+    </section>
+    <div class="layout">
+      <form id="reservation">
+        <h2>New reservation</h2>
+        <label>Start date<input id="start" name="startDate" type="date" required></label>
+        <label>End date<input id="end" name="endDate" type="date" required></label>
+        <label>Guest / trip detail<input id="guest" name="renterName" placeholder="Maya Patel | Trip TR-1024" required maxlength="200"></label>
+        <button id="submit" type="submit" disabled>Add reservation</button>
+        <p id="message" role="status" aria-live="polite"></p>
+      </form>
+      <section>
+        <div class="section-heading"><h2>Source reservations</h2><button id="refresh" type="button" disabled>Refresh</button></div>
+        <p id="list-message" role="status" aria-live="polite"></p>
+        <div class="table-wrap"><table><thead><tr><th>Guest</th><th>Start</th><th>End</th><th>Status</th></tr></thead><tbody id="events"></tbody></table></div>
+      </section>
+    </div>
+  </main>
+  <script type="module">
+    const vehicleSelect = document.querySelector('#vehicle');
+    const submit = document.querySelector('#submit');
+    const refresh = document.querySelector('#refresh');
+    const form = document.querySelector('#reservation');
+    const message = document.querySelector('#message');
+    const listMessage = document.querySelector('#list-message');
+    const start = document.querySelector('#start');
+    const end = document.querySelector('#end');
+    const photo = document.querySelector('#photo');
+    const eventsBody = document.querySelector('#events');
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    start.min = today;
+    end.min = today;
+    let vehicles = [];
+    let controller;
+
+    async function api(path, options) {
+      const response = await fetch(path, options);
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || 'Request failed');
+      return body;
+    }
+
+    async function loadEvents() {
+      controller?.abort();
+      const requestController = new AbortController();
+      controller = requestController;
+      eventsBody.replaceChildren();
+      listMessage.className = '';
+      listMessage.textContent = 'Loading reservations...';
+      try {
+        const events = await api(`/api/vehicles/${vehicleSelect.value}/mock-turo/events`, { signal: requestController.signal });
+        if (requestController.signal.aborted) return;
+        for (const event of events) {
+          const row = document.createElement('tr');
+          for (const value of [event.renter_name, event.start_date, event.end_date, event.imported ? 'Imported' : 'Pending sync']) {
+            const cell = document.createElement('td');
+            cell.textContent = value;
+            row.append(cell);
+          }
+          row.lastChild.className = event.imported ? 'imported' : 'pending';
+          eventsBody.append(row);
+        }
+        listMessage.textContent = events.length ? '' : 'No source reservations';
+      } catch (error) {
+        if (requestController.signal.aborted) return;
+        listMessage.className = 'error';
+        listMessage.textContent = error.message;
+      }
+    }
+
+    function selectVehicle() {
+      const selected = vehicles.find(vehicle => String(vehicle.id) === vehicleSelect.value);
+      photo.hidden = !selected?.photo_url;
+      if (selected?.photo_url) { photo.src = selected.photo_url; photo.alt = selected.make_model; }
+      message.textContent = '';
+      form.reset();
+      end.min = today;
+      loadEvents();
+    }
+    photo.addEventListener('error', () => { photo.hidden = true; });
+    vehicleSelect.addEventListener('change', selectVehicle);
+    refresh.addEventListener('click', () => { message.textContent = ''; loadEvents(); });
+    start.addEventListener('input', () => { end.min = start.value || today; });
+    form.addEventListener('input', () => { message.textContent = ''; });
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      submit.disabled = true;
+      vehicleSelect.disabled = true;
+      message.className = '';
+      message.textContent = '';
+      try {
+        await api(`/api/vehicles/${vehicleSelect.value}/mock-turo/events`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        message.textContent = 'Reservation added. Pending sync.';
+        form.reset();
+        end.min = today;
+        await loadEvents();
+      } catch (error) {
+        message.className = 'error';
+        message.textContent = error.message;
+      } finally {
+        submit.disabled = false;
+        vehicleSelect.disabled = false;
+      }
+    });
+    try {
+      vehicles = await api('/api/vehicles');
+      for (const vehicle of vehicles) {
+        const option = document.createElement('option');
+        option.value = vehicle.id;
+        option.textContent = `${vehicle.make_model} (${vehicle.plate || vehicle.name})`;
+        vehicleSelect.append(option);
+      }
+      if (!vehicles.length) throw new Error('No vehicles found. Seed the demo database.');
+      vehicleSelect.disabled = false;
+      submit.disabled = false;
+      refresh.disabled = false;
+      selectVehicle();
+    } catch (error) {
+      message.className = 'error';
+      message.textContent = error.message;
+    }
+  </script>
+</body>
+</html>
